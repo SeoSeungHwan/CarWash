@@ -1,10 +1,7 @@
 package com.router.carwash.repository;
 
 
-import com.router.carwash.R;
-import com.router.carwash.model.Item;
-import com.router.carwash.model.Response;
-import com.router.carwash.model.Weather;
+import com.router.carwash.model.apiInfo.WeatherInfo;
 
 import retrofit2.http.GET;
 import retrofit2.Call;
@@ -12,13 +9,14 @@ import retrofit2.http.Query;
 
 public interface WeatherService {
 
-    String BASE_URL ="http://apis.data.go.kr/1360000/MidFcstInfoService/";
+    String BASE_URL ="http://api.openweathermap.org/data/2.5/";
 
-    //api키 ignore하기!
-    @GET("getMidTa?serviceKey=TPjqY3dBCSVQ6T0f%2BBo7WsczzD%2FAy7pmHDdcXDJwRpeE8P4LVp%2Bxq8g8IaQcOLYGSkMWPi4ofPfwEuctz4DRGA%3D%3D"+
-            "&numOfRows=10"+
-            "&pageNo=1"+
-            "&dataType=JSON"+
-            "&regId=11D20501")
-    Call<Weather> getJson(@Query("tmFc") String tmFc);
+   //api키 ignore하기!
+    @GET("forecast?appid=e0bd2e6604e6512dff6235b57ef889fc&lang=kr")
+    Call<WeatherInfo> getJson(@Query("lat") String tmFc,
+                              @Query("lon") String lon);
+
+    /*@GET("forecast?lat=36.769670&lon=126.931656&appid=e0bd2e6604e6512dff6235b57ef889fc&lang=kr")
+    Call<WeatherInfo> getJson();
+    */
 }

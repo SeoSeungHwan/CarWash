@@ -45,4 +45,12 @@ dependencies {
 
     //Moshi
     implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+
+    //TedPermission
+    implementation 'gun0912.ted:tedpermission:2.2.3'
+
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
 }
