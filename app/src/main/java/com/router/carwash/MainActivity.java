@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModelProvider;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     //View 객체들
     private TextView region;
-
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //View객체들
-        region = findViewById(R.id.textview);
+        region = findViewById(R.id.region_tv);
+        progressBar = findViewById(R.id.progressBar);
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
 
@@ -49,6 +53,14 @@ public class MainActivity extends AppCompatActivity {
                                 viewModel.fetchWeatherInfo();
                                 viewModel.getItemLiveData().observe(MainActivity.this, weatherInfo -> {
                                     region.setText("" + weatherInfo.getCity().getName());
+                                });
+
+                                viewModel.getLoadingLiveData().observe(MainActivity.this, isloading->{
+                                    if(isloading){
+                                        progressBar.setVisibility(View.VISIBLE);
+                                    }else{
+                                        progressBar.setVisibility(View.GONE);
+                                    }
                                 });
                             }
                 });

@@ -21,14 +21,15 @@ import static android.content.ContentValues.TAG;
 public class MainViewModel extends ViewModel {
 
 
-
     private String lat = "38";
     private String lon = "125";
 
     private MutableLiveData<WeatherInfo> itemLiveData = new MutableLiveData<>();
-    public MutableLiveData<WeatherInfo> getItemLiveData() {
-        return itemLiveData;
-    }
+
+
+
+    private MutableLiveData<Boolean> loadingLiveData = new MutableLiveData<>();
+
 
     //Retrofit사용하여 api를통해 request
     Retrofit retrofit = new Retrofit.Builder()
@@ -39,7 +40,11 @@ public class MainViewModel extends ViewModel {
     WeatherService service = retrofit.create(WeatherService.class);
 
     public void fetchWeatherInfo(){
-        Log.d(TAG, "fetchWeatherInfo: " + lat +" , " + lon);
+
+        //로딩 시작
+        loadingLiveData.setValue(true);
+
+
         Call<WeatherInfo> weatherInfoCall = service.getJson(lat,lon);
         weatherInfoCall.clone().enqueue(new Callback<WeatherInfo>() {
             @Override
@@ -48,10 +53,13 @@ public class MainViewModel extends ViewModel {
                     Log.d(TAG, "onResponse: 실패");
                 }else {
 
-                    Log.d(TAG, "onResponse: 성공" + response.body().getCity().getName());
+                    Log.d(TAG, "onResponse: 성공" );
                     WeatherInfo weatherInfo = response.body();
                     itemLiveData.postValue(weatherInfo);
                 }
+
+                //로딩 끝
+                loadingLiveData.postValue(false);
             }
 
             @Override
@@ -59,6 +67,16 @@ public class MainViewModel extends ViewModel {
                     itemLiveData.postValue(null);
             }
         });
+    }
+
+
+    //getter setter
+    public MutableLiveData<WeatherInfo> getItemLiveData() {
+        return itemLiveData;
+    }
+
+    public MutableLiveData<Boolean> getLoadingLiveData() {
+        return loadingLiveData;
     }
 
     public void setLat(String lat) {
