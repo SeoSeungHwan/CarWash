@@ -38,7 +38,6 @@ public class MainViewModel extends ViewModel {
     //Weather LivaData
     private MutableLiveData<java.util.List<List>> weatherLiveData = new MutableLiveData<>();
 
-
     //Retrofit사용하여 api를통해 request
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(WeatherService.BASE_URL)
@@ -47,11 +46,12 @@ public class MainViewModel extends ViewModel {
 
     WeatherService service = retrofit.create(WeatherService.class);
 
+
+
     public void fetchWeatherInfo(){
 
         //로딩 시작
         loadingLiveData.setValue(true);
-
 
         Call<WeatherInfo> weatherInfoCall = service.getJson(lat,lon);
         weatherInfoCall.clone().enqueue(new Callback<WeatherInfo>() {
@@ -60,7 +60,6 @@ public class MainViewModel extends ViewModel {
                 if(!response.isSuccessful()){
                     Log.d(TAG, "onResponse: 실패");
                 }else {
-
                     Log.d(TAG, "onResponse: 성공" );
                     WeatherInfo weatherInfo = response.body();
 
@@ -78,6 +77,9 @@ public class MainViewModel extends ViewModel {
             }
         });
     }
+
+
+
 
     //getter setter
     public MutableLiveData<WeatherInfo> getItemLiveData() {
