@@ -40,11 +40,11 @@ public class WeatherInfo {
         this.cnt = cnt;
     }
 
-    public java.util.List<List> getList() {
+    public java.util.List<List> getListitem() {
         return list;
     }
 
-    public void setList(java.util.List<List> list) {
+    public void setListitem(java.util.List<List> list) {
         this.list = list;
     }
 

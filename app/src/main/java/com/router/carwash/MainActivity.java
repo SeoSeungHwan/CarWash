@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -37,9 +38,11 @@ public class MainActivity extends AppCompatActivity {
         region = findViewById(R.id.region_tv);
         progressBar = findViewById(R.id.progressBar);
 
+        //LocationService 객체
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
 
+        //Location Permission Check
         PermissionListener permissionlistener = new PermissionListener() {
             @SuppressLint("MissingPermission")
             @Override
@@ -53,6 +56,13 @@ public class MainActivity extends AppCompatActivity {
                                 viewModel.fetchWeatherInfo();
                                 viewModel.getItemLiveData().observe(MainActivity.this, weatherInfo -> {
                                     region.setText("" + weatherInfo.getCity().getName());
+
+                                });
+
+                                viewModel.getWeatherLiveData().observe(MainActivity.this, weatherInfo ->{
+                                    for(int i=0 ; i<37;i++){
+                                        Log.d(TAG, "onPermissionGranted: "+weatherInfo.get(i).getDtTxt() + ","+ weatherInfo.get(i).getWeather().get(0).getMain());
+                                    }
                                 });
 
                                 viewModel.getLoadingLiveData().observe(MainActivity.this, isloading->{
