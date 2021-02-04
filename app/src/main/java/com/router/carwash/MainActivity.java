@@ -25,10 +25,12 @@ import com.gun0912.tedpermission.TedPermission;
 import com.router.carwash.model.apiInfo.Main;
 import com.router.carwash.model.apiInfo.TodayWeather;
 import com.router.carwash.model.apiInfo.Weather;
+import com.router.carwash.model.apiInfo.WeatherInfo;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,27 +42,26 @@ public class MainActivity extends AppCompatActivity {
     private String TAG = "MainActivity TAG";
     private ArrayList<String> weatherList = new ArrayList<>();
     private long backBtnTime = 0;
-    private Toast toast;
 
     //View 객체들
-    private TextView region;
+    private TextView region , today_date_tv , temporatures_tv , status_tv;
     private ProgressBar progressBar;
-    RecyclerView recyclerView;
-    TodayRecyclerViewAdapter adapter;
-    LinearLayoutManager linearLayoutManager;
+    private RecyclerView recyclerView;
+    private TodayRecyclerViewAdapter adapter;
+    private LinearLayoutManager linearLayoutManager;
     private ImageView afternoon_1_iv, afternoon_2_iv, afternoon_3_iv, afternoon_4_iv;
+    private TextView day_1_tv, day_2_tv, day_3_tv, day_4_tv;
 
     @Override
     public void onBackPressed() {
         long curTime = System.currentTimeMillis();
         long gapTime = curTime - backBtnTime;
 
-        if(0 <= gapTime && 2000 >= gapTime) {
+        if (0 <= gapTime && 2000 >= gapTime) {
             super.onBackPressed();
-        }
-        else {
+        } else {
             backBtnTime = curTime;
-            Toast.makeText(this, "한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -74,8 +75,16 @@ public class MainActivity extends AppCompatActivity {
 
         //View객체들
         region = findViewById(R.id.region_tv);
+        today_date_tv = findViewById(R.id.today_date_tv);
+        temporatures_tv = findViewById(R.id.temporatures_tv);
+        status_tv = findViewById(R.id.status_tv);
         progressBar = findViewById(R.id.progressBar);
         recyclerView = findViewById(R.id.recyclerView);
+        day_1_tv = findViewById(R.id.day_1_tv); day_2_tv = findViewById(R.id.day_2_tv);
+        day_3_tv = findViewById(R.id.day_3_tv); day_4_tv = findViewById(R.id.day_4_tv);
+        afternoon_1_iv = findViewById(R.id.afternoon_1_iv); afternoon_2_iv = findViewById(R.id.afternoon_2_iv);
+        afternoon_3_iv = findViewById(R.id.afternoon_3_iv); afternoon_4_iv = findViewById(R.id.afternoon_4_iv);
+
 
         //RecyclerViewadapter , LinearLayout생성
         linearLayoutManager = new LinearLayoutManager(this);
@@ -100,56 +109,58 @@ public class MainActivity extends AppCompatActivity {
                         viewModel.setLon(String.valueOf(location.getLongitude()));
                         viewModel.fetchWeatherInfo();
                         viewModel.getItemLiveData().observe(MainActivity.this, weatherInfo -> {
-                            //지역이름 Setting
-                            region.setText("" + weatherInfo.getCity().getName());
+                            String status = "GREAT";
 
-                            //날씨판단
-                            Log.d(TAG, "onPermissionGranted: " + weatherInfo.getListitem().get(3).getDtTxt().substring(11, 13));
+                            //지역이름  , 날짜 Setting
+                            region.setText("" + weatherInfo.getCity().getName());
+                            today_date_tv.setText(LocalDate.now().toString());
+                            temporatures_tv.setText(String.format("%.1f",weatherInfo.getListitem().get(2).getMain().getTemp()-273.15) + "C");
+                            day_1_tv.setText(LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("MM.dd")).toString());
+                            day_2_tv.setText(LocalDate.now().plusDays(2).format(DateTimeFormatter.ofPattern("MM.dd")).toString());
+                            day_3_tv.setText(LocalDate.now().plusDays(3).format(DateTimeFormatter.ofPattern("MM.dd")).toString());
+                            day_4_tv.setText(LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("MM.dd")).toString());
+
+                            //오늘 날씨 RecyclerView 등록
                             String now = LocalDate.now().toString();
 
-                            for(int i=0 ; i< weatherInfo.getListitem().size(); i++){
-                                if(now.equals(weatherInfo.getListitem().get(i).getDtTxt().substring(0,10))){
+                            for (int i = 0; i < weatherInfo.getListitem().size(); i++) {
+                                if (now.equals(weatherInfo.getListitem().get(i).getDtTxt().substring(0, 10))) {
 
                                     TodayWeather todayWeather = new TodayWeather();
                                     todayWeather.setTime(weatherInfo.getListitem().get(i).getDtTxt().substring(11, 16));
                                     todayWeather.setWeather(weatherInfo.getListitem().get(i).getWeather().get(0).getMain());
                                     adapter.addItem(todayWeather);
-                                    Log.d(TAG, "onPermissionGranted: " + weatherInfo.getListitem().get(i).getDtTxt().substring(11, 16)+weatherInfo.getListitem().get(i).getWeather().get(0).getMain());
+
                                 }
                             }
                             adapter.notifyDataSetChanged();
 
-                        });
-                            /*//5일간의 날씨 판단
-                            weatherList.add(whatIsWeather(weatherInfo.getListitem().get(0).getWeather().get(0)));
-                            for (int i = 0; i < 9; i++) {
-                                boolean isClouds = false;
-                                for (int j = 1; j < 5; j++) {
-                                    //비나 눈이오면 해당 시간대는 비나 눈으로 판단하고 break
-                                    if (whatIsWeather(weatherInfo.getListitem().get(i * 4 + j).getWeather().get(0)).equals("rain")) {
-                                        weatherList.add("rain");
-                                        break;
-                                    } else if (whatIsWeather(weatherInfo.getListitem().get(i * 4 + j).getWeather().get(0)).equals("snow")) {
-                                        weatherList.add("snow");
-                                        break;
-                                    } else if (whatIsWeather(weatherInfo.getListitem().get(i * 4 + j).getWeather().get(0)).equals("clouds")) {
-                                        isClouds = true;
-                                    }
-
-                                    //눈이나 비가없을때 구름인지 맑음인지 정하기
-                                    if (isClouds == true && j == 4) {
-                                        weatherList.add("clouds");
-                                    } else if (isClouds == false && j == 4) {
-                                        weatherList.add("clear");
+                            //2~5일간의 날씨 등록
+                            String[] day = {"Clear" , "Clear" , "Clear" , "Clear"};
+                            for(int i=0 ; i< weatherInfo.getListitem().size() ; i++){
+                                String str = weatherInfo.getListitem().get(i).getDtTxt();
+                                for(int z=1 ; z<5 ; z++){
+                                    if(str.substring(8,10).equals(LocalDate.now().plusDays(z).format(DateTimeFormatter.ofPattern("dd")))) {
+                                        if (getWeatherMain(weatherInfo, i).equals("Snow")) {
+                                            day[z-1] = "Snow";
+                                            status = "BAD";
+                                        } else if (getWeatherMain(weatherInfo, i).equals("Rain")) {
+                                            day[z-1] = "Rain";
+                                            status = "BAD";
+                                        } else if (!(day[z-1].equals("Snow") || day[z-1].equals("Rain")) && getWeatherMain(weatherInfo, i).equals("Clouds")) {
+                                            day[z-1] = "Clouds";
+                                        }
                                     }
                                 }
                             }
 
-                                                        for (int index = 0; index < weatherList.size(); index++) {
-                                Log.d(TAG, "onPermissionGranted: " + weatherList.get(index));
-                            }*/
 
-
+                            afternoon_1_iv.setImageResource(imageViewSrc(day[0]));
+                            afternoon_2_iv.setImageResource(imageViewSrc(day[1]));
+                            afternoon_3_iv.setImageResource(imageViewSrc(day[2]));
+                            afternoon_4_iv.setImageResource(imageViewSrc(day[3]));
+                            status_tv.setText(status);
+                        });
 
 
                         viewModel.getLoadingLiveData().observe(MainActivity.this, isloading -> {
@@ -159,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                                 progressBar.setVisibility(View.GONE);
                             }
                         });
-                    }else{
+                    } else {
                     }
                 });
             }
@@ -178,5 +189,23 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private String getWeatherMain(WeatherInfo weatherInfo , int index){
+        return weatherInfo.getListitem().get(index).getWeather().get(0).getMain();
+    }
+
+    private int imageViewSrc(String weather){
+        switch (weather){
+            case "Clear":
+                return R.drawable.sun;
+            case "Clouds":
+                return R.drawable.cloud;
+            case "Snow":
+                return R.drawable.snow;
+            case "Rain":
+                return R.drawable.rain;
+            default:
+                return R.drawable.sun;
+        }
+    }
 
 }

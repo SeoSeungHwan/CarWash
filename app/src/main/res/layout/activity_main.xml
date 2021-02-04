@@ -223,7 +223,7 @@
             app:srcCompat="@drawable/shortstick" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/today_date_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/hanygo230"
@@ -237,7 +237,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/temporatures.tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/hanygo230"
@@ -257,7 +257,8 @@
         android:layout_height="80dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/afternoon_textview"
-        tools:layout_editor_absoluteX="165dp" />
+        tools:layout_editor_absoluteX="165dp"
+        tools:listitem="@layout/today_weather_item" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

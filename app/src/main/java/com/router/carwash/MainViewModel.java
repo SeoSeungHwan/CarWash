@@ -59,7 +59,6 @@ public class MainViewModel extends ViewModel {
                     Log.d(TAG, "onResponse: 성공" );
                     itemLiveData.postValue(response.body());
                 }
-
                 //로딩 끝
                 loadingLiveData.postValue(false);
             }
