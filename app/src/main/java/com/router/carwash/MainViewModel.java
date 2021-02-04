@@ -1,6 +1,7 @@
 package com.router.carwash;
 
 import android.util.Log;
+import android.widget.Toast;
 
 
 import androidx.lifecycle.MutableLiveData;
@@ -25,7 +26,7 @@ import static android.content.ContentValues.TAG;
 public class MainViewModel extends ViewModel {
 
     //경도, 위도
-    private String lat = "38";
+    private String lat = "40";
     private String lon = "125";
 
     //WeatherInfo LiveData
@@ -33,10 +34,6 @@ public class MainViewModel extends ViewModel {
 
     //Loading LiveData
     private MutableLiveData<Boolean> loadingLiveData = new MutableLiveData<>();
-
-
-    //Weather LivaData
-    private MutableLiveData<java.util.List<List>> weatherLiveData = new MutableLiveData<>();
 
     //Retrofit사용하여 api를통해 request
     Retrofit retrofit = new Retrofit.Builder()
@@ -52,7 +49,6 @@ public class MainViewModel extends ViewModel {
 
         //로딩 시작
         loadingLiveData.setValue(true);
-
         Call<WeatherInfo> weatherInfoCall = service.getJson(lat,lon);
         weatherInfoCall.clone().enqueue(new Callback<WeatherInfo>() {
             @Override
@@ -61,10 +57,7 @@ public class MainViewModel extends ViewModel {
                     Log.d(TAG, "onResponse: 실패");
                 }else {
                     Log.d(TAG, "onResponse: 성공" );
-                    WeatherInfo weatherInfo = response.body();
-
-                    itemLiveData.postValue(weatherInfo);
-                    weatherLiveData.postValue(weatherInfo.getListitem());
+                    itemLiveData.postValue(response.body());
                 }
 
                 //로딩 끝
@@ -88,10 +81,6 @@ public class MainViewModel extends ViewModel {
 
     public MutableLiveData<Boolean> getLoadingLiveData() {
         return loadingLiveData;
-    }
-
-    public MutableLiveData<java.util.List<List>> getWeatherLiveData() {
-        return weatherLiveData;
     }
 
 
