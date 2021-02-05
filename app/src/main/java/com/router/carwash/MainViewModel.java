@@ -43,8 +43,6 @@ public class MainViewModel extends ViewModel {
 
     WeatherService service = retrofit.create(WeatherService.class);
 
-
-
     public void fetchWeatherInfo(){
 
         //로딩 시작
@@ -89,5 +87,13 @@ public class MainViewModel extends ViewModel {
 
     public void setLon(String lon) {
         this.lon = lon;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public String getLon() {
+        return lon;
     }
 }

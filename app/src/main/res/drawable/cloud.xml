@@ -4,6 +4,49 @@
     android:viewportWidth="80"
     android:viewportHeight="80">
   <path
-      android:pathData="M59.69,33.73c0,-0.83 -0.23,-7.83 -6,-12 -5.95,-4.29 -12.84,-2 -14.28,-1.5a18.35,18.35 0,0 0,-9.72 8v-0.5C18.21,23.32 5.14,30.39 2.24,41.82c-0.19,0.77 -2.61,8.12 1.45,13.92 4.33,6.17 11.92,4.81 43,5 19.6,0.12 25.3,0.71 29,-4 3.45,-4.38 4.41,-12.39 0,-18C72.14,34.2 65.86,32.22 59.69,33.73Z"
+      android:pathData="M55.78,34.73m-12,0a12,12 0,1 1,24 0a12,12 0,1 1,-24 0"
+      android:fillColor="#fbb03b"/>
+  <path
+      android:pathData="M31.78,35.23L42.28,35.23"
+      android:strokeWidth="3"
+      android:fillColor="#00000000"
+      android:strokeColor="#fbb03b"/>
+  <path
+      android:pathData="M69.34,35.22L79.84,35.22"
+      android:strokeWidth="3"
+      android:fillColor="#00000000"
+      android:strokeColor="#fbb03b"/>
+  <path
+      android:pathData="M55.52,20.84L55.52,10.34"
+      android:strokeWidth="3"
+      android:fillColor="#00000000"
+      android:strokeColor="#fbb03b"/>
+  <path
+      android:pathData="M55.52,58.84L55.52,48.34"
+      android:strokeWidth="3"
+      android:fillColor="#00000000"
+      android:strokeColor="#fbb03b"/>
+  <path
+      android:pathData="M66.38,23.58L73.8,16.15"
+      android:strokeWidth="3"
+      android:fillColor="#00000000"
+      android:strokeColor="#fbb03b"/>
+  <path
+      android:pathData="M38.52,52.58L45.94,45.15"
+      android:strokeWidth="3"
+      android:fillColor="#00000000"
+      android:strokeColor="#fbb03b"/>
+  <path
+      android:pathData="M45.06,24.13L37.64,16.71"
+      android:strokeWidth="3"
+      android:fillColor="#00000000"
+      android:strokeColor="#fbb03b"/>
+  <path
+      android:pathData="M73.12,53.56L65.7,46.14"
+      android:strokeWidth="3"
+      android:fillColor="#00000000"
+      android:strokeColor="#fbb03b"/>
+  <path
+      android:pathData="M59.51,42.58c0,-0.84 -0.24,-7.84 -6,-12 -6,-4.3 -12.85,-2 -14.29,-1.5a18.23,18.23 0,0 0,-9.71 8v-0.5C18,32.17 5,39.23 2.05,50.67c-0.19,0.77 -2.61,8.12 1.46,13.91 4.32,6.17 11.91,4.81 43,5 19.59,0.12 25.29,0.71 29,-4 3.44,-4.38 4.4,-12.39 0,-18C72,43 65.67,41.07 59.51,42.58Z"
       android:fillColor="#e6e6e6"/>
 </vector>

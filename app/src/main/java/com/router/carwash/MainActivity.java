@@ -9,10 +9,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -22,17 +29,14 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
-import com.router.carwash.model.apiInfo.Main;
 import com.router.carwash.model.apiInfo.TodayWeather;
-import com.router.carwash.model.apiInfo.Weather;
 import com.router.carwash.model.apiInfo.WeatherInfo;
 
-import java.text.SimpleDateFormat;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -47,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView region , today_date_tv , temporatures_tv , status_tv;
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
+    private Button googleMap_Btn;
     private TodayRecyclerViewAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
     private ImageView afternoon_1_iv, afternoon_2_iv, afternoon_3_iv, afternoon_4_iv;
@@ -73,10 +78,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
+
+
         //View객체들
         region = findViewById(R.id.region_tv);
         today_date_tv = findViewById(R.id.today_date_tv);
         temporatures_tv = findViewById(R.id.temporatures_tv);
+        googleMap_Btn = findViewById(R.id.googleMap_btn);
         status_tv = findViewById(R.id.status_tv);
         progressBar = findViewById(R.id.progressBar);
         recyclerView = findViewById(R.id.recyclerView);
@@ -111,8 +121,9 @@ public class MainActivity extends AppCompatActivity {
                         viewModel.getItemLiveData().observe(MainActivity.this, weatherInfo -> {
                             String status = "GREAT";
 
+
                             //지역이름  , 날짜 Setting
-                            region.setText("" + weatherInfo.getCity().getName());
+                            region.setText("<" + weatherInfo.getCity().getName()+">");
                             today_date_tv.setText(LocalDate.now().toString());
                             temporatures_tv.setText(String.format("%.1f",weatherInfo.getListitem().get(2).getMain().getTemp()-273.15) + "C");
                             day_1_tv.setText(LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("MM.dd")).toString());
@@ -160,8 +171,15 @@ public class MainActivity extends AppCompatActivity {
                             afternoon_3_iv.setImageResource(imageViewSrc(day[2]));
                             afternoon_4_iv.setImageResource(imageViewSrc(day[3]));
                             status_tv.setText(status);
+
                         });
 
+                        googleMap_Btn.setOnClickListener(view -> {
+                            Intent intent = new Intent(MainActivity.this, KakaoMapActivity.class);
+                            intent.putExtra("lat" , viewModel.getLat());
+                            intent.putExtra("lon" , viewModel.getLon());
+                            startActivity(intent);
+                        });
 
                         viewModel.getLoadingLiveData().observe(MainActivity.this, isloading -> {
                             if (isloading) {
@@ -170,15 +188,16 @@ public class MainActivity extends AppCompatActivity {
                                 progressBar.setVisibility(View.GONE);
                             }
                         });
-                    } else {
+                    }
+                    else {
                     }
                 });
             }
-
             @Override
             public void onPermissionDenied(List<String> deniedPermissions) {
                 Toast.makeText(MainActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
             }
+
         };
 
         TedPermission.with(this)

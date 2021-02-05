@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/region_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@color/mainColor"
         android:fontFamily="@font/tmoneyfont"
         android:gravity="center"
         android:paddingLeft="20dp"
@@ -19,8 +18,9 @@
         android:paddingRight="20dp"
         android:paddingBottom="10dp"
         android:text="Region"
-        android:textColor="#ffffff"
-        android:textSize="20sp"
+        android:textColor="@color/mainColor"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="@+id/googleMap_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -259,6 +259,18 @@
         app:layout_constraintBottom_toTopOf="@+id/afternoon_textview"
         tools:layout_editor_absoluteX="165dp"
         tools:listitem="@layout/today_weather_item" />
+
+    <Button
+        android:id="@+id/googleMap_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/subColor"
+        android:fontFamily="@font/hanygo230"
+        android:text="Map->"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
