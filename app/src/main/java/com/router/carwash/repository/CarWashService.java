@@ -1,5 +1,8 @@
 package com.router.carwash.repository;
 
+import android.content.res.Resources;
+
+import com.router.carwash.BuildConfig;
 import com.router.carwash.model.apiInfo.CarWashInfo;
 
 import retrofit2.Call;
@@ -11,7 +14,8 @@ import retrofit2.http.Query;
 public interface CarWashService {
     String BASE_URL ="http://dapi.kakao.com/";
 
-    @Headers("Authorization: KakaoAK " +"76ecf187f47db84d6fe88344a32b9d99" )
+
+    @Headers("Authorization: KakaoAK " +BuildConfig.KaKao_Key )
     @GET("v2/local/search/keyword.json")
     Call<CarWashInfo> getSearchKeyword(
             @Query("query") String query,

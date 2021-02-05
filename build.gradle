@@ -22,3 +22,6 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
