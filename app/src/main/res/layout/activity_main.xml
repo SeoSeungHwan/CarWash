@@ -7,6 +7,7 @@
     android:background="#ffffff"
     tools:context=".MainActivity">
 
+
     <TextView
         android:id="@+id/region_tv"
         android:layout_width="wrap_content"
@@ -17,7 +18,7 @@
         android:paddingTop="10dp"
         android:paddingRight="20dp"
         android:paddingBottom="10dp"
-        android:text="Region"
+        android:text="현재위치"
         android:textColor="@color/mainColor"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="@+id/googleMap_btn"
@@ -39,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/tmoneyfont"
-        android:text="GREAT"
+        android:text=""
         android:textColor="@color/mainColor"
         android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="@+id/centerCircle_iv"
@@ -99,7 +100,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="10dp"
-            android:src="@drawable/cloud" />
+            tools:srcCompat="@drawable/cloud" />
 
         <ImageView
             android:id="@+id/afternoon_2_iv"
@@ -107,7 +108,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="10dp"
-            android:src="@drawable/cloud" />
+            tools:srcCompat="@drawable/cloud" />
 
         <ImageView
             android:id="@+id/afternoon_3_iv"
@@ -115,7 +116,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="10dp"
-            android:src="@drawable/cloud" />
+            tools:srcCompat="@drawable/cloud"  />
 
         <ImageView
             android:id="@+id/afternoon_4_iv"
@@ -123,7 +124,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="10dp"
-            android:src="@drawable/cloud" />
+            tools:srcCompat="@drawable/cloud" />
 
     </LinearLayout>
 
@@ -144,7 +145,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/tmoneyfont"
             android:gravity="center"
-            android:text="02.03"
+            android:text="Day+1"
             android:textColor="#ffffff" />
 
         <TextView
@@ -154,7 +155,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/tmoneyfont"
             android:gravity="center"
-            android:text="02.04"
+            android:text="Day+2"
             android:textColor="#ffffff" />
 
         <TextView
@@ -164,7 +165,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/tmoneyfont"
             android:gravity="center"
-            android:text="02.05"
+            android:text="Day+3"
             android:textColor="#ffffff" />
 
         <TextView
@@ -174,7 +175,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/tmoneyfont"
             android:gravity="center"
-            android:text="02.06"
+            android:text="Day+4"
             android:textColor="#ffffff" />
 
     </LinearLayout>
@@ -228,7 +229,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/hanygo230"
             android:gravity="center"
-            android:text="21.02.03"
+            android:text="오늘날짜"
             android:textColor="@color/mainColor"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -242,7 +243,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/hanygo230"
             android:gravity="center"
-            android:text="36.5C"
+            android:text="현재기온"
             android:textColor="@color/mainColor"
             android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView38"

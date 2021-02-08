@@ -64,6 +64,7 @@ public class MainViewModel extends ViewModel {
             @Override
             public void onFailure(Call<WeatherInfo> call, Throwable t) {
                     itemLiveData.postValue(null);
+                Log.d(TAG, "onFailure: ");
             }
         });
     }
