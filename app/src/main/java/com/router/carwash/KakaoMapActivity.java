@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ public class KakaoMapActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private CarWashRecyclerViewAdapter adapter;
+    private MapView mapView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +78,7 @@ public class KakaoMapActivity extends AppCompatActivity {
                     Toast.makeText(KakaoMapActivity.this, "위치정보가 잘못되었습니다. 다시 실행해주세요", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    MapView mapView = new MapView(KakaoMapActivity.this);
+                    mapView = new MapView(KakaoMapActivity.this);
                     ViewGroup mapViewContainer = findViewById(R.id.map_view);
                     mapViewContainer.addView(mapView);
 
@@ -115,6 +117,16 @@ public class KakaoMapActivity extends AppCompatActivity {
                     }
                 });
 
+                adapter.setOnItemClickListener(new CarWashRecyclerViewAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View v, int position) {
+                        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(
+                                adapter.getmData().get(position).getY(),
+                                adapter.getmData().get(position).getX()),
+                                true);
+                    }
+                });
+
             }
 
             @Override
@@ -122,7 +134,6 @@ public class KakaoMapActivity extends AppCompatActivity {
 
             }
         });
-
 
     }
 

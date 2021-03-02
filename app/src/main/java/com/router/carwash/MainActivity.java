@@ -79,9 +79,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
-
-
         //View객체들
         region = findViewById(R.id.region_tv);
         today_date_tv = findViewById(R.id.today_date_tv);
@@ -140,6 +137,9 @@ public class MainActivity extends AppCompatActivity {
                                     TodayWeather todayWeather = new TodayWeather();
                                     todayWeather.setTime(weatherInfo.getListitem().get(i).getDtTxt().substring(11, 16));
                                     todayWeather.setWeather(weatherInfo.getListitem().get(i).getWeather().get(0).getMain());
+                                    if(todayWeather.getWeather().equals("Rain")||todayWeather.getWeather().equals("Snow")){
+                                        status = "BAD";
+                                    }
                                     adapter.addItem(todayWeather);
 
                                 }

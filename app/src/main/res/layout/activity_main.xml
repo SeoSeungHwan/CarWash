@@ -263,13 +263,13 @@
 
     <Button
         android:id="@+id/googleMap_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:background="@color/subColor"
         android:fontFamily="@font/hanygo230"
-        android:text="Map->"
+        android:text="Map"
         android:textColor="#ffffff"
-        android:textSize="20sp"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -1,10 +1,12 @@
 package com.router.carwash;
 
 import android.content.Context;
-import android.util.Log;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -15,8 +17,6 @@ import com.router.carwash.model.apiInfo.Document;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class CarWashRecyclerViewAdapter extends RecyclerView.Adapter<CarWashRecyclerViewAdapter.ViewHolder> {
 
@@ -32,7 +32,6 @@ public class CarWashRecyclerViewAdapter extends RecyclerView.Adapter<CarWashRecy
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView place_name_tv ,phone_tv,road_address_name_tv ,distance_tv;
-
         ViewHolder(View itemView) {
             super(itemView) ;
 
@@ -41,6 +40,20 @@ public class CarWashRecyclerViewAdapter extends RecyclerView.Adapter<CarWashRecy
             phone_tv = itemView.findViewById(R.id.phone_tv) ;
             road_address_name_tv = itemView.findViewById(R.id.road_address_name_tv) ;
             distance_tv = itemView.findViewById(R.id.distance_tv);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION){
+                        if(mListener != null){
+                            mListener.onItemClick(view,position);
+                        }
+                    }
+                }
+            });
+
+
         }
     }
 
@@ -76,8 +89,6 @@ public class CarWashRecyclerViewAdapter extends RecyclerView.Adapter<CarWashRecy
             holder.road_address_name_tv.setText(document.getRoadAddressName());
         }
         holder.distance_tv.setText(Double.parseDouble(document.getDistance())/1000 + "km");
-
-
     }
 
 
@@ -91,5 +102,14 @@ public class CarWashRecyclerViewAdapter extends RecyclerView.Adapter<CarWashRecy
         // 외부에서 item을 추가시킬 함수입니다.
         mData.add(document);
 
+    }
+
+    //Activity에서 Onclick 처리하기위한 interface
+    public interface OnItemClickListener{
+        void onItemClick(View v, int position);
+    }
+    private OnItemClickListener mListener = null;
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.mListener = listener;
     }
 }
